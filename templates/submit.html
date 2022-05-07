@@ -9,9 +9,9 @@
 <h1>Submit</h1>
 <h2>Submit a new recipe here:</h2>
 
-<form id="form-ingredient-set1" action="/submit" method="post">
+<form id="form-ingredient-set1" name="form-ingredient-set1" action="/submit" method="post">
     <label id="label-ingredient-set1-ingredient1" for="input-ingredient-set1-ingredient1">Ingredient 1:</label>
-    <input id="input-ingredient-set1-ingredient1" type="text">
+    <input id="input-ingredient-set1-ingredient1" type="text" name="ingredient1">
     <br class="break-ingredient-set1-ingredient1">
     <br class="break-ingredient-set1-ingredient1">
     <input type="button" id="add-ingredient-set1" value="Add Ingredient"><br><br>
@@ -23,6 +23,11 @@
 <br>
 
 {% if data["submitted_recipe"] %}
-<p>{{ data["submitted_recipe"] }}</p>
+{% for name, ingredient in data["submitted_recipe"] %}
+<p>{{name}} : {{ ingredient }}</p>
+{% endfor %}
+
+
+
 {% endif %}
 {% endblock content %}

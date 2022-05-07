@@ -26,6 +26,7 @@ function addFieldToIngredientForm(form) {
     let newField = document.createElement("input");
     newField.id = "input-ingredient-set1-ingredient" + ingredient_set1_index;
     newField.type = "text";
+    newField.name = "ingredient" + ingredient_set1_index;
     form.insertBefore(newLabel, ingredient_set1_addButton);
     form.insertBefore(newField, ingredient_set1_addButton);
     let newBreak = document.createElement("br");
