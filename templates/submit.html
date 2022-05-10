@@ -13,7 +13,7 @@
     <div id="div-set1">
         <h3>Set 1:</h3>
         <label id="label-ingredient-set1-ingredient1" for="input-ingredient-set1-ingredient1">Ingredient 1:</label>
-        <input id="input-ingredient-set1-ingredient1" type="text" name="Inrgedient 1">
+        <input id="input-ingredient-set1-ingredient1" type="text" name="Set-1-Ingredient-1">
         <br class="break-ingredient-set1-ingredient1">
         <br class="break-ingredient-set1-ingredient1">
         <input type="button" id="add-ingredient-set1" value="Add Ingredient"><br><br>
@@ -27,9 +27,26 @@
 <br>
 <br>
 
-{% if data["submitted_recipe"] %}
+<!---
+    {% if data["submitted_recipe"] %}
 {% for name, ingredient in data["submitted_recipe"] %}
 <p>{{ name }} : {{ ingredient }}</p>
 {% endfor %}
+{% endif %}
+-->
+
+{% if data["json_recipe"] %}
+{% for set, set_contents in data["json_recipe"] %}
+<h3>{{ set }}:</h3>
+
+<h4>{{ set_contents }}</h4>
+
+    {% for ingredient_number, ingredient in set_contents %}
+    <p>{{ ingredient_number }} : {{ ingredient }}</p>
+    {% endfor %}
+
+
+{% endfor %}
+
 {% endif %}
 {% endblock content %}

@@ -53,7 +53,7 @@ function addSetToForm() {
     let newField = document.createElement("input");
     newField.id = "input-ingredient-set" + set_count + "-ingredient" + set_indices[set_count - 1];
     newField.type = "text";
-    newField.name = "Ingredient " + set_indices[set_count - 1];
+    newField.name = "Set-" + set_count + "-Ingredient-" + set_indices[set_count - 1];
     newField.className = "input-ingredient-set" + set_count;
     //insert the elements
     newDiv.appendChild(newSetHeader);
@@ -70,15 +70,16 @@ function addSetToForm() {
     newAddButton.type = "button";
     newAddButton.value = "Add Ingredient";
     newAddButton.id = "add-ingredient-set" + set_count;
+    const current_set_count = set_count;
     newAddButton.onclick = function () {
-        addField(set_count);
+        addField(current_set_count);
     }
     let newRemoveButton = document.createElement("input");
     newRemoveButton.type = "button";
     newRemoveButton.value = "Remove Ingredient";
     newRemoveButton.id = "remove-ingredient-set" + set_count;
     newRemoveButton.onclick = function () {
-        removeField(set_count);
+        removeField(current_set_count);
     }
     let addButtonBreak = document.createElement("br");
     let addButtonBreak2 = document.createElement("br");
@@ -139,7 +140,7 @@ function addField(set) {
     let newField = document.createElement("input");
     newField.id = "input-ingredient-set" + set + "-ingredient" + ingredient_index;
     newField.type = "text";
-    newField.name = "Ingredient " + ingredient_index;
+    newField.name = "Set-" + set + "-Ingredient-" + ingredient_index;
     //add label and field
     setDiv.insertBefore(newLabel, addButton);
     setDiv.insertBefore(newField, addButton);
