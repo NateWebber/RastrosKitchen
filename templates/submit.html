@@ -9,25 +9,44 @@
 <h1>Submit</h1>
 <h2>Submit a new recipe here:</h2>
 
-<form id="form-ingredient-set1" name="form-ingredient-set1" action="/submit" method="post">
-    <label id="label-ingredient-set1-ingredient1" for="input-ingredient-set1-ingredient1">Ingredient 1:</label>
-    <input id="input-ingredient-set1-ingredient1" type="text" name="ingredient1">
-    <br class="break-ingredient-set1-ingredient1">
-    <br class="break-ingredient-set1-ingredient1">
-    <input type="button" id="add-ingredient-set1" value="Add Ingredient"><br><br>
-    <input type="button" id="remove-ingredient-set1" value="Remove Ingredient"><br><br>
+<form id="form-ingredient" action="/submit" method="post">
+    <div id="div-set1">
+        <h3>Set 1:</h3>
+        <label id="label-ingredient-set1-ingredient1" for="input-ingredient-set1-ingredient1">Ingredient 1:</label>
+        <input id="input-ingredient-set1-ingredient1" type="text" name="Set-1-Ingredient-1">
+        <br class="break-ingredient-set1-ingredient1">
+        <br class="break-ingredient-set1-ingredient1">
+        <input type="button" id="add-ingredient-set1" value="Add Ingredient"><br><br>
+        <input type="button" id="remove-ingredient-set1" value="Remove Ingredient"><br><br>
+    </div>
+    <input type="button" id="add-set" value="Add Set"><br><br>
+    <input type="button" id="remove-set" value="Remove Set"><br><br>
     <input type="submit" id="submit-ingredient-set1" value="Submit">
 </form>
 
 <br>
 <br>
 
-{% if data["submitted_recipe"] %}
+<!---
+    {% if data["submitted_recipe"] %}
 {% for name, ingredient in data["submitted_recipe"] %}
-<p>{{name}} : {{ ingredient }}</p>
+<p>{{ name }} : {{ ingredient }}</p>
 {% endfor %}
+{% endif %}
+-->
+
+{% if data["json_recipe"] %}
+{% for set, set_contents in data["json_recipe"] %}
+<h3>{{ set }}:</h3>
+
+<h4>{{ set_contents }}</h4>
+
+    {% for ingredient_number, ingredient in set_contents %}
+    <p>{{ ingredient_number }} : {{ ingredient }}</p>
+    {% endfor %}
 
 
+{% endfor %}
 
 {% endif %}
 {% endblock content %}
