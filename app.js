@@ -52,13 +52,12 @@ app.post('/submit', (req, res) => {
         script: "scripts/submit.js"
     };
     console.log("post method on /submit");
-    //console.log(req.body);
     data["submitted_recipe"] = req.body;
 
-    data["json_recipe"] = JSON.stringify(recipeBodyToJSON(req.body));
+    //data["json_recipe"] = JSON.stringify(recipeBodyToJSON(req.body));
+    data["json_recipe"] = recipeBodyToJSON(req.body);
     console.log("FINAL PARSED JSON:");
     console.log(data["json_recipe"]);
-
 
     res.render('submit.html', { data: data });
 })
@@ -77,6 +76,7 @@ app.listen(port, () => {
 function recipeBodyToJSON(recipe_data) {
     console.log("parsing submitted recipe into JSON...");
     let jsonRecipe = {};
+    console.log("RECIPE TO BE PARSED: ");
     console.log(recipe_data);
     /*
     * submitted data will have name format of "Set-X-Ingredient-Y"
@@ -84,16 +84,9 @@ function recipeBodyToJSON(recipe_data) {
     */
     for (let entry in recipe_data) {
         console.log(`entry: ${entry}`);
-        //let jsonKey = null;
         let jsonValue = recipe_data[entry];
         console.log(`jsonValue: ${jsonValue}`);
         let bodyKey = entry;
-        /*for (let i in entry) {
-            bodyKey = i;
-            console.log(`bodyKey: ${bodyKey}`);
-            jsonValue = entry[i];
-            console.log(`jsonValue: ${jsonValue}`);
-        }*/
         let entry_array = bodyKey.split('-');
         console.log(`entry_array: ${entry}`)
         let set_index = parseInt(entry_array[1]);
@@ -105,10 +98,14 @@ function recipeBodyToJSON(recipe_data) {
         console.log(`jsonEntry: ${jsonEntry}`);
 
         if (("set_" + set_index) in jsonRecipe) {
-            jsonRecipe["set_" + set_index].push(jsonEntry);
+            //jsonRecipe["set_" + set_index].push(jsonEntry);
+            jsonRecipe["set_" + set_index].push(jsonValue);
+
         }
         else {
-            jsonRecipe["set_" + set_index] = [jsonEntry];
+            //jsonRecipe["set_" + set_index] = [jsonEntry];
+            jsonRecipe["set_" + set_index] = [jsonValue];
+
         }
     }
     return jsonRecipe;

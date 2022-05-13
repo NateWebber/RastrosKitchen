@@ -27,16 +27,19 @@
 <br>
 <br>
 
-<!---
-    {% if data["submitted_recipe"] %}
-{% for name, ingredient in data["submitted_recipe"] %}
-<p>{{ name }} : {{ ingredient }}</p>
-{% endfor %}
-{% endif %}
--->
 
 {% if data["json_recipe"] %}
-<p>{{ data["json_recipe"] }}</p>
+{% for set, set_contents in data["json_recipe"] %}
+
+<h4>{{ set }}</h4>
+
+<ul>
+    {% for ingredient in set_contents %}
+        <li>{{ ingredient }}</li>
+    {% endfor %}
+</ul>
+
+{% endfor %}
 
 {% endif %}
 {% endblock content %}
