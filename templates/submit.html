@@ -36,17 +36,7 @@
 -->
 
 {% if data["json_recipe"] %}
-{% for set, set_contents in data["json_recipe"] %}
-<h3>{{ set }}:</h3>
-
-<h4>{{ set_contents }}</h4>
-
-    {% for ingredient_number, ingredient in set_contents %}
-    <p>{{ ingredient_number }} : {{ ingredient }}</p>
-    {% endfor %}
-
-
-{% endfor %}
+<p>{{ data["json_recipe"] }}</p>
 
 {% endif %}
 {% endblock content %}

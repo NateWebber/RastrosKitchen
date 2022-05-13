@@ -55,8 +55,10 @@ app.post('/submit', (req, res) => {
     //console.log(req.body);
     data["submitted_recipe"] = req.body;
 
-    data["json_recipe"] = recipeBodyToJSON(req.body);
+    data["json_recipe"] = JSON.stringify(recipeBodyToJSON(req.body));
+    console.log("FINAL PARSED JSON:");
     console.log(data["json_recipe"]);
+
 
     res.render('submit.html', { data: data });
 })
