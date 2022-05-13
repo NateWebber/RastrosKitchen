@@ -1,4 +1,4 @@
-##Rastro's Kitchen
+## Rastro's Kitchen
 
 This project will eventually be a recipe repository website where users can upload and browse their own recipes.
 
