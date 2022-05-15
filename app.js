@@ -4,26 +4,24 @@ const path = require('path');
 
 const express = require('express');
 
+const app = express();
+
 const nunjucks = require('nunjucks');
 
 const bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.json());
 
 const port = process.env.PORT || 8080;
 
-const app = express();
-
+//master static directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(bodyParser.json());
-
-app.use(express.json());
-
-app.use(express.urlencoded())
-
-//app.set("app_name", "Rastro's Kitchen")
+//routes
+app.use('/submit', require('./routes/routes-submit'));
+app.use('/', require('./routes/routes-main')); //404 handling is here so it needs to be on the "bottom"
 
 nunjucks.configure('templates', {
     autoescape: true,
@@ -31,82 +29,6 @@ nunjucks.configure('templates', {
     watch: true
 });
 
-app.get('/', (req, res) => {
-    let data = {
-        page_title: "Home"
-    };
-    res.render('index.html', { data: data });
-});
-
-app.get('/submit', (req, res) => {
-    let data = {
-        page_title: "Submit",
-        script: "scripts/submit.js"
-    };
-    res.render('submit.html', { data: data });
-})
-
-app.post('/submit', (req, res) => {
-    let data = {
-        page_title: "Submit",
-        script: "scripts/submit.js"
-    };
-    console.log("post method on /submit");
-    data["submitted_recipe"] = req.body;
-
-    //data["json_recipe"] = JSON.stringify(recipeBodyToJSON(req.body));
-    data["json_recipe"] = recipeBodyToJSON(req.body);
-    console.log("FINAL PARSED JSON:");
-    console.log(data["json_recipe"]);
-
-    res.render('submit.html', { data: data });
-})
-
-app.get('*', (req, res) => {
-    let data = {
-        page_title: "404"
-    };
-    res.render('404.html', { data: data });
-})
-
 app.listen(port, () => {
     console.log(`RASTRO: Server listening on port ${port}`);
 })
-
-function recipeBodyToJSON(recipe_data) {
-    console.log("parsing submitted recipe into JSON...");
-    let jsonRecipe = {};
-    console.log("RECIPE TO BE PARSED: ");
-    console.log(recipe_data);
-    /*
-    * submitted data will have name format of "Set-X-Ingredient-Y"
-    * so if we call string.split('-'), we can expect the set index to be result[1], and the ingredient index to be result[3]
-    */
-    for (let entry in recipe_data) {
-        console.log(`entry: ${entry}`);
-        let jsonValue = recipe_data[entry];
-        console.log(`jsonValue: ${jsonValue}`);
-        let bodyKey = entry;
-        let entry_array = bodyKey.split('-');
-        console.log(`entry_array: ${entry}`)
-        let set_index = parseInt(entry_array[1]);
-        let ingredient_index = parseInt(entry_array[3]);
-        console.log(`looking at set ${set_index} - ingredient ${ingredient_index}`);
-        let jsonKey = `ingredient_${ingredient_index}`;
-        let jsonEntry = {};
-        jsonEntry[jsonKey] = jsonValue;
-        console.log(`jsonEntry: ${jsonEntry}`);
-
-        if (("set_" + set_index) in jsonRecipe) {
-            //jsonRecipe["set_" + set_index].push(jsonEntry);
-            jsonRecipe["set_" + set_index].push(jsonValue);
-
-        }
-        else {
-            //jsonRecipe["set_" + set_index] = [jsonEntry];
-            jsonRecipe["set_" + set_index] = [jsonValue];
-
-        }
-    }
-    return jsonRecipe;
-}
