@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ data["page_title"] }}
+{% endblock title %}
+{% block script %}
+{{ data["script"] }}
+{% endblock script %}
+{% block content %}
+<h1>Submit - Step 3 - Instructions</h1>
+<h2>Submitted Basics:</h2>
+<h3>Recipe Title: {{ data["ingredients_json"]["Recipe-Title"] }}</h3>
+<h3>Recipe Description: </h3>
+<p>{{ data["ingredients_json"]["Recipe-Description"] }}</p>
+<h2>Submitted Ingredients:</h2>
+{% for set, set_contents in data["ingredients_json"]["ingredients"] %}
+
+<h4>{{ set }}</h4>
+
+<ul>
+    {% for ingredient in set_contents %}
+    <li>{{ ingredient }}</li>
+    {% endfor %}
+</ul>
+
+{% endfor %}
+
+<h2>Instructions: </h2>
+<form id="form-instruction" action="/submit/finish" method="post">
+    <div id="div-set1">
+        <h3>Set 1:</h3>
+        <label id="label-instruction-set1-instruction1" for="input-instruction-set1-instruction1">Step 1:</label>
+        <input id="input-instruction-set1-instruction1" type="text" name="Set-1-Instruction-1">
+        <br class="break-instruction-set1-instruction1">
+        <br class="break-instruction-set1-instruction1">
+        <input type="button" id="add-instruction-set1" value="Add Step"><br><br>
+        <input type="button" id="remove-instruction-set1" value="Remove Step"><br><br>
+    </div>
+    <input type="button" id="add-set" value="Add Set"><br><br>
+    <input type="button" id="remove-set" value="Remove Set"><br><br>
+    <!-- make sure the basics make it through using hidden inputs-->
+    <input type="hidden" name="Recipe-Title" id="input-basics-title" value="{{ data["ingredients_json"]["Recipe-Title"] }}">
+    <input type="hidden" name="Recipe-Description" id="input-basics-description" value="{{ data["ingredients_json"]["Recipe-Description"] }}">
+    <!-- shenanigans the likes of which have never before been seen-->
+    {% for set, set_contents in data["ingredients_json"]["ingredients"] %}
+    {% set outer_loop = loop %}
+    {% for ingredient in set_contents %}
+    <input type="hidden" name="Set-{{outer_loop.index}}-Ingredient-{{loop.index}}" value="{{ingredient}}">
+    {% endfor %}
+    {% endfor %}
+    <input type="submit" id="submit-instruction-set1" value="Submit">
+</form>
+
+<br>
+<br>
+
+
+{% if data["json_recipe_string"] %}
+<!--{% for set, set_contents in data["json_recipe"] %}
+
+<h4>{{ set }}</h4>
+
+<ul>
+    {% for ingredient in set_contents %}
+        <li>{{ ingredient }}</li>
+    {% endfor %}
+</ul>
+
+{% endfor %}-->
+<p>{{ data["json_recipe_string"] }}</p>
+
+{% endif %}
+{% endblock content %}

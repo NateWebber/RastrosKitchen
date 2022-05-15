@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ data["page_title"] }}
+{% endblock title %}
+{% block script %}
+{{ data["script"] }}
+{% endblock script %}
+{% block content %}
+<h1>Submit - Step 1 - Basics</h1>
+<h2>Basic Recipe Information:</h2>
+
+<form id="form-basics" action="/submit/step-2-ingredients" method="post">
+    <label for="input-basics-title">Recipe Title:</label>
+    <input type="text" name="Recipe-Title" id="input-basics-title"><br><br>
+    <label for="input-basics-description">Recipe Description:</label><br>
+    <textarea name="Recipe-Description" id="input-basics-description" cols="30" rows="10"></textarea><br><br>
+    <input type="submit" id="submit-basics" value="Submit">
+</form>
+
+<br>
+<br>
+
+{% endblock content %}

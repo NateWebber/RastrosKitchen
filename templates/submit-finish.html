@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ data["page_title"] }}
+{% endblock title %}
+{% block script %}
+{{ data["script"] }}
+{% endblock script %}
+{% block content %}
+<h1>Submit - Finished!</h1>
+<h2>Your submitted recipe:</h2>
+
+<h3>Recipe Title: {{ data["finished_json"]["Recipe-Title"] }}</h3>
+<h3>Recipe Description: </h3>
+<p>{{ data["finished_json"]["Recipe-Description"] }}</p>
+
+<h3>Ingredients:</h3>
+{% for set, set_contents in data["finished_json"]["ingredients"] %}
+
+<h4>{{ set }}</h4>
+
+<ul>
+    {% for ingredient in set_contents %}
+    <li>{{ ingredient }}</li>
+    {% endfor %}
+</ul>
+
+{% endfor %}
+
+<h3>Instructions:</h3>
+{% for set, set_contents in data["finished_json"]["instructions"] %}
+
+<h4>{{ set }}</h4>
+
+<ul>
+    {% for instruction in set_contents %}
+    <li>{{ instruction }}</li>
+    {% endfor %}
+</ul>
+
+{% endfor %}
+
+
+<br>
+<br>
+
+{% endblock content %}

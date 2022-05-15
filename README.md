@@ -19,6 +19,7 @@ Planned launch: Late August/Early September 2022 (hopefully)
         - Optionally divided into "sets" for organization
     - Recipe Steps
         - Optionally divided into "sets" for organization
+    - **Validators** (do *not* forget)
     - "Preservation/Autosave/WIP" system (likely will require DB setup)
         - Prevent loss of data in event of form/server/user error
         - Allow for drafting/"finish later"

@@ -6,10 +6,15 @@
 {{ data["script"] }}
 {% endblock script %}
 {% block content %}
-<h1>Submit</h1>
-<h2>Submit a new recipe here:</h2>
+<h1>Submit - Step 2 - Ingredients</h1>
+<h2>Submitted Basics:</h2>
+<h3>Recipe Title: {{ data["basics_json"]["Recipe-Title"] }}</h3>
+<h3>Recipe Description: </h3>
+<p>{{ data["basics_json"]["Recipe-Description"] }}</p>
 
-<form id="form-ingredient" action="/submit" method="post">
+
+<h2>Ingredients: </h2>
+<form id="form-ingredient" action="/submit/step-3-instructions" method="post">
     <div id="div-set1">
         <h3>Set 1:</h3>
         <label id="label-ingredient-set1-ingredient1" for="input-ingredient-set1-ingredient1">Ingredient 1:</label>
@@ -21,6 +26,9 @@
     </div>
     <input type="button" id="add-set" value="Add Set"><br><br>
     <input type="button" id="remove-set" value="Remove Set"><br><br>
+    <!-- make sure the basics make it through using hidden inputs-->
+    <input type="hidden" name="Recipe-Title" id="input-basics-title" value="{{ data["basics_json"]["Recipe-Title"] }}">
+    <input type="hidden" name="Recipe-Description" id="input-basics-description" value="{{ data["basics_json"]["Recipe-Description"] }}">
     <input type="submit" id="submit-ingredient-set1" value="Submit">
 </form>
 
@@ -28,8 +36,8 @@
 <br>
 
 
-{% if data["json_recipe"] %}
-{% for set, set_contents in data["json_recipe"] %}
+{% if data["json_recipe_string"] %}
+<!--{% for set, set_contents in data["json_recipe"] %}
 
 <h4>{{ set }}</h4>
 
@@ -39,7 +47,8 @@
     {% endfor %}
 </ul>
 
-{% endfor %}
+{% endfor %}-->
+<p>{{ data["json_recipe_string"] }}</p>
 
 {% endif %}
 {% endblock content %}

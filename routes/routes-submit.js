@@ -11,28 +11,56 @@ router.use((req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    let data = {
-        page_title: "Submit",
-        script: "scripts/submit.js"
-    };
-    res.render('submit.html', { data: data });
+    res.redirect('/submit/step-1-basics');
 });
 
-router.post('/', (req, res) => {
+//begin recipe submission process
+router.get('/step-1-basics', (req, res) => {
     let data = {
         page_title: "Submit",
-        script: "scripts/submit.js"
+        script: "../scripts/submit-basics.js"
     };
-    console.log("post method on /submit");
+    res.render('submit-basics.html', { data: data });
+});
+
+//take basics and move to step 2 (ingredients)
+router.post('/step-2-ingredients', (req, res) => {
+    let data = {
+        page_title: "Submit",
+        script: "../scripts/submit-ingredients.js"
+    };
+    console.log("post method on step-2-ingredients");
     console.log(`post method body: ${req.body}`);
-    data["submitted_recipe"] = req.body;
+    data["basics_json"] = req.body;
 
-    //data["json_recipe"] = JSON.stringify(recipeBodyToJSON(req.body));
-    data["json_recipe"] = JSONParser.bodyToJSON(req.body);
-    console.log("FINAL PARSED JSON:");
-    console.log(data["json_recipe"]);
-
-    res.render('submit.html', { data: data });
+    res.render('submit-ingredients.html', { data: data });
 });
+
+//take basics + ingredients and move to step 3 (instructions)
+router.post('/step-3-instructions', (req, res) => {
+    let data = {
+        page_title: "Submit",
+        script: "../scripts/submit-instructions.js"
+    };
+    console.log("post method on step-3-ingredients");
+    console.log(`post method body: ${JSON.stringify(req.body)}`);
+    let parsedJSON = bodyToJSON.step2ToJSON(req.body);
+    console.log(`parsed JSON: ${JSON.stringify(parsedJSON)}`);
+    data["ingredients_json"] = parsedJSON;
+
+    res.render('submit-instructions.html', { data: data });
+});
+
+router.post('/finish', (req, res) => {
+    let data = {
+        page_title: "Submit"
+    }
+    console.log('post method to finish');
+    console.log(`post method body: ${JSON.stringify(req.body)}`);
+    let parsedJSON = bodyToJSON.step3ToJSON(req.body);
+    console.log(`parsed JSON: ${JSON.stringify(parsedJSON)}`);
+    data["finished_json"] = parsedJSON;
+    res.render('submit-finish.html', {data: data})
+})
 
 module.exports = router;
