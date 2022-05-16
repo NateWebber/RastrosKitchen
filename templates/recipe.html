@@ -4,4 +4,26 @@
 {% endblock title %}
 {% block content %}
 <h1>{{ data["recipe_json"]["Recipe-Title"] }}</h1>
+<p>{{ data["recipe_json"]["Recipe-Description"] }}</p>
+<h2>Ingredients:</h2>
+{% for set, set_contents in data["recipe_json"]["ingredients"] %}
+    <h3>Set {{ loop.index }}:</h3>
+    <ul>
+        {% for ingredient in set_contents %}
+            <li>{{ ingredient }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+<h2>Instructions:</h2>
+{% for set, set_contents in data["recipe_json"]["instructions"] %}
+    <h3>Set {{ loop.index }}:</h3>
+    <ol>
+        {% for instruction in set_contents %}
+            <li>{{ instruction }}</li>
+        {% endfor %}
+    </ol>
+{% endfor %}
+<br>
+<br>
+<a href="/browse">Return to Recipe List</a>
 {% endblock content %}

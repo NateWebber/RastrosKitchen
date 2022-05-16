@@ -46,6 +46,9 @@ router.get('/browse', (req, res) => {
 
 router.get('/recipes/:recipeID', (req, res) => {
     console.log("main router called /recipes/:recipeID")
+    if (req.params.recipeID == "defer"){
+        res.end()
+    }
     let data = {};
     recipeRepo.getByID(req.params.recipeID).then((fetched_recipe) => {
         console.log("FETCHED RECIPE:");
