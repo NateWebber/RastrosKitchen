@@ -15,6 +15,7 @@ const recipeRepo = new RecipeRepository(dao);
 //TODO learn exactly why this is necessary
 router.use((req, res, next) => {
     console.log("submit router!")
+    console.log(`url: ${req.url}`)
     console.log('Time: ', Date.now());
     next();
 });
