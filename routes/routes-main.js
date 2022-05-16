@@ -17,16 +17,12 @@ const recipeRepo = new RecipeRepository(dao);
 //middleware
 //TODO learn exactly why this is necessary
 router.use((req, res, next) => {
+    console.log("main router!")
     console.log('Time: ', Date.now());
     next();
 });
 
-router.get('/', (req, res) => {
-    let data = {
-        page_title: "Home"
-    };
-    res.render('index.html', { data: data });
-});
+
 
 router.get('/browse', (req, res) => {
     let data = {
@@ -35,17 +31,36 @@ router.get('/browse', (req, res) => {
     }
 
     recipeRepo.getAll().then((rows) => {
-        for (let i = 0; i < rows.length; i++){
+        for (let i = 0; i < rows.length; i++) {
             console.log(rows[i])
-            data.recipes.push(JSON.parse(rows[i].recipe));
+            data.recipes.push(rows[i]);
         }
-    }).then(() =>{
+    }).then(() => {
         console.log("DATA RECIPES")
         console.log(data["recipes"])
         res.render('browse.html', { data: data })
-    } )
+    })
 
 })
+
+router.get('/recipes/:recipeID', (req, res) => {
+    console.log("main router called /recipes/:recipeID")
+    let data = {};
+    recipeRepo.getByID(req.params.recipeID).then((fetched_recipe) => {
+        console.log("FETCHED RECIPE:");
+        console.log(fetched_recipe);
+        data["page_title"] = fetched_recipe["recipe_title"];
+        data["recipe_json"] = JSON.parse(fetched_recipe["recipe_json_string"]);
+        res.render('recipe.html', { data: data });
+    })
+})
+
+router.get('/', (req, res) => {
+    let data = {
+        page_title: "Home"
+    };
+    res.render('index.html', { data: data });
+});
 
 router.get('*', (req, res) => {
     let data = {

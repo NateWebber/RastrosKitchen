@@ -8,7 +8,7 @@
 {% if data["recipes"] %}
 <ul>
     {% for rows in data["recipes"] %}
-    <li>{{ rows["Recipe-Title"] }}</li>
+    <li><a href="/recipes/{{ rows["id"] }}">{{ rows["recipe_title"] }}</a></li>
     {% endfor %}
 </ul>
 {% endif %}

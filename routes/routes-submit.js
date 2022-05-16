@@ -14,6 +14,7 @@ const recipeRepo = new RecipeRepository(dao);
 //middleware
 //TODO learn exactly why this is necessary
 router.use((req, res, next) => {
+    console.log("submit router!")
     console.log('Time: ', Date.now());
     next();
 });
@@ -70,7 +71,7 @@ router.post('/finish', (req, res) => {
     console.log(`parsed JSON: ${JSON.stringify(parsedJSON)}`);
     data["finished_json"] = parsedJSON;
 
-    recipeRepo.create(JSON.stringify(parsedJSON));
+    recipeRepo.create(JSON.stringify(parsedJSON), parsedJSON["Recipe-Title"]);
 
     res.render('submit-finish.html', {data: data})
 })
