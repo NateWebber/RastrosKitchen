@@ -29,6 +29,9 @@ nunjucks.configure('templates', {
     watch: true
 });
 
+/*function initializeDB() {
+}*/
+
 app.listen(port, () => {
     console.log(`RASTRO: Server listening on port ${port}`);
 })

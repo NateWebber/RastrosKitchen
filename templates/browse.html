@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ data["page_title"] }}
+{% endblock title %}
+{% block content %}
+<h1>Browse All Recipes:</h1>
+<br>
+{% if data["recipes"] %}
+<ul>
+    {% for rows in data["recipes"] %}
+    <li>{{ rows["Recipe-Title"] }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<br>
+<a href="/">Back to Home</a>
+{% endblock content %}

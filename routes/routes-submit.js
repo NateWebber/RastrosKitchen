@@ -3,6 +3,14 @@ const bodyToJSON = require('../utilities/body-to-JSON');
 const router = express.Router();
 
 const JSONParser = require('../utilities/body-to-JSON')
+
+//database stuff
+const RastroDAO = require('../database/dao');
+const RecipeRepository = require('../database/recipe-repository');
+
+const dao = new RastroDAO('./database/database.sqlite3');
+const recipeRepo = new RecipeRepository(dao);
+
 //middleware
 //TODO learn exactly why this is necessary
 router.use((req, res, next) => {
@@ -52,6 +60,7 @@ router.post('/step-3-instructions', (req, res) => {
 });
 
 router.post('/finish', (req, res) => {
+    recipeRepo.createTable();
     let data = {
         page_title: "Submit"
     }
@@ -60,6 +69,9 @@ router.post('/finish', (req, res) => {
     let parsedJSON = bodyToJSON.step3ToJSON(req.body);
     console.log(`parsed JSON: ${JSON.stringify(parsedJSON)}`);
     data["finished_json"] = parsedJSON;
+
+    recipeRepo.create(JSON.stringify(parsedJSON));
+
     res.render('submit-finish.html', {data: data})
 })
 
